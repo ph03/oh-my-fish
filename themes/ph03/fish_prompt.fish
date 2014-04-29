@@ -33,12 +33,12 @@ set superuser_glyph         '$ '
 set bg_job_glyph            '% '
 
 # Colors
-set lt_green   addc10
+set lt_green   9ec90f
 set med_green  189303
 set dk_green   0c4801
 
 set lt_red     C99
-set med_red    ce000f
+set med_red    ac000c
 set dk_red     600
 
 set slate_blue 255e87
@@ -201,22 +201,25 @@ end
 
 # TODO: clean up the fugly $ahead business
 function __ph03_prompt_git -d 'Display the actual git state'
-  set -l dirty   (command git diff --no-ext-diff --quiet --exit-code; or echo -n '*')
-  set -l staged  (command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n '~')
-  set -l stashed (command git rev-parse --verify refs/stash > /dev/null 2>&1; and echo -n '$')
-  set -l ahead   (command git branch -v 2> /dev/null | grep -Eo '^\* [^ ]* *[^ ]* *\[[^]]*\]' | grep -Eo '\[[^]]*\]$' | awk 'ORS="";/ahead/ {print "+"} /behind/ {print "-"}' | sed -e 's/+-/±/')
+  set -l dirty   (command git diff --no-ext-diff --quiet --exit-code; or echo -n '*'(command git status --porcelain 2>/dev/null| grep "^[ MARC][MD]" | wc -l)' ')
+  set -l staged  (command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n '+'(command git status --porcelain 2>/dev/null| grep "^[MARDC]" | wc -l)' ')
+  set -l stashed (command git rev-parse --verify refs/stash > /dev/null 2>&1; and echo -n '$ ')
+  set -l aheadnum   (command git rev-list @\{u\}..HEAD | wc -l)
+  set -l behinddnum (command git rev-list HEAD..@\{u\} | wc -l)
+  set -l ahead   (command git branch -v 2> /dev/null | grep -Eo '^\* [^ ]* *[^ ]* *\[[^]]*\]' | grep -Eo '\[[^]]*\]$' | awk 'ORS="";/ahead/ {print "↑"} /behind/ {print "↓"}' | sed -e "s/↑/↑$aheadnum/" | sed -e "s/↓/↓$behinddnum/")
+  test "$ahead"; and set ahead $ahead' '
 
   set -l new (command git ls-files --other --exclude-standard);
-  test "$new"; and set new '…'
+  test "$new"; and set new '…'(command git status --porcelain 2>/dev/null | grep "^??" | wc -l)' '
 
-  set -l flags   "$dirty$staged$stashed$ahead$new"
+  set -l flags (command echo "$ahead$staged$dirty$stashed$new" | sed 's/[ \t]*$//')
   test "$flags"; and set flags " $flags"
 
-  set -l flag_bg $lt_green
-  set -l flag_fg $dk_green
+  set -l flag_bg $med_green
+  set -l flag_fg $dk_orange
   if test "$dirty" -o "$staged"
     set flag_bg $med_red
-    set flag_fg fff
+    set flag_fg $dk_orange
   else
     if test "$stashed"
       set flag_bg $lt_orange
@@ -249,16 +252,16 @@ end
 
 function __ph03_svn_prompt
     if svn info>/dev/null 2>&1
-        __ph03_start_segment $lt_green $dk_green
-        set_color $dk_green --bold
+        __ph03_start_segment $med_green $dk_orange
+        set_color $dk_orange --bold
         printf 'svn %s ' (svn info 2>&1 | sed -n -e '/^Revision: \([0-9]*\).*$/s//\1/p')
     end
 end
 
 function __ph03_hg_prompt
     if hg root >/dev/null 2>&1
-        __ph03_start_segment $lt_green $dk_green
-        set_color $dk_green --bold
+        __ph03_start_segment $med_green $dk_orange
+        set_color $dk_orange --bold
         printf '\u263F %s ' (hg branch ^/dev/null)
     end
 end
