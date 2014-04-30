@@ -204,8 +204,8 @@ function __ph03_prompt_git -d 'Display the actual git state'
   set -l dirty   (command git diff --no-ext-diff --quiet --exit-code; or echo -n '*'(command git status --porcelain 2>/dev/null| grep "^[ MARC][MD]" | wc -l)' ')
   set -l staged  (command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n '+'(command git status --porcelain 2>/dev/null| grep "^[MARDC]" | wc -l)' ')
   set -l stashed (command git rev-parse --verify refs/stash > /dev/null 2>&1; and echo -n '$ ')
-  set -l aheadnum   (command git rev-list @\{u\}..HEAD | wc -l)
-  set -l behinddnum (command git rev-list HEAD..@\{u\} | wc -l)
+  set -l aheadnum   (command git rev-list @\{u\}..HEAD 2>&1 | wc -l)
+  set -l behinddnum (command git rev-list HEAD..@\{u\} 2>&1 | wc -l)
   set -l ahead   (command git branch -v 2> /dev/null | grep -Eo '^\* [^ ]* *[^ ]* *\[[^]]*\]' | grep -Eo '\[[^]]*\]$' | awk 'ORS="";/ahead/ {print "↑"} /behind/ {print "↓"}' | sed -e "s/↑/↑$aheadnum/" | sed -e "s/↓/↓$behinddnum/")
   test "$ahead"; and set ahead $ahead' '
 
