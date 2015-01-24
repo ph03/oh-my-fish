@@ -28,10 +28,12 @@ This theme is based loosely on [agnoster][agnoster].
      * Background jobs (%)
      * You currently have superpowers ($)
  * User@Host (unless you're the default user)
+ * Current RVM or rbenv (Ruby) version
+ * Current virtualenv (Python) version
  * Abbreviated parent directory
- * Current directory or Git project name
- * Current project's Git branch (⭠ master) or detached head (➦ d0dfd9b)
- * Git status, via colors and flags:
+ * Current directory, or Git or Mercurial project name
+ * Current project's repo branch ( master) or detached head (➦ d0dfd9b)
+ * Git or Mercurial status, via colors and flags:
      * Dirty working directory (*)
      * Untracked files (…)
      * Staged changes (~)
@@ -39,7 +41,20 @@ This theme is based loosely on [agnoster][agnoster].
      * Unpulled commits (-)
      * Unpushed commits (+)
      * Unpulled *and* unpushed commits (±)
+     * _Note that not all of these have been implemented for hg yet :)_
  * Abbreviated project-relative path
+
+
+### Configuration
+
+You can override some default options in your `config.fish`:
+
+    set -g theme_display_git no
+    set -g theme_display_hg yes
+    set -g theme_display_virtualenv no
+    set -g theme_display_ruby no
+    set -g theme_display_user yes
+    set -g default_user your_normal_user
 
 
 [screenshot]: http://i.0x7f.us/bobthefish.png

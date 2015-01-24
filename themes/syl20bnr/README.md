@@ -1,6 +1,9 @@
 # syl20bnr theme
 
-Sylvain Benner personal, compact (hmmm...) yet complete (almost :-)) oh-my-fish theme.
+A semi-compact oh-my-fish theme with [nice support for git](#git).
+
+The theme has been tested on `Ubuntu 14.04 (Trusty)` and `Mac OS X 10.10 (Yosemite)`.
+It is also compatible with [Cygwin with the appropriate packages](#cygwin-compatibility).
 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -13,6 +16,7 @@ Sylvain Benner personal, compact (hmmm...) yet complete (almost :-)) oh-my-fish 
 	- [end](#end)
 	- [where](#where)
 - [Functions](#functions)
+- [Mac compatibility](#mac-compatibility)
 - [Cygwin compatibility](#cygwin-compatibility)
 
 ## Segments
@@ -46,32 +50,49 @@ replaced by the `git` segment (I should know where I am).
 The `git` segment format is `X:YI@Z:P(N)` where:
 - `X` is `git`
 - `Y` is the current branch name
-- `I` is the information about the current repository state
+- `I` is some information about the current repository state
 - `Z` is the name of the repository
 - `P` is the current working path basename (name of the current directory)
 If `P` = `Z` then `P(N)` is not displayed
 - `N` is the depth of the path starting from base directory of the repository
 
 The displayed information `I` is:
-- Dirtiness is indicated by a little dot after the branch name.
-- Unpushed commits are indicated with up arrows
-- The number of unpushed commits is indicated right after the up arrows
+- Unpushed commits are indicated with an up arrow like this `[↑1]`
+- Unmerged fetched commits are indicated with a down arrow like this `[↓1]`
 
+**Note:** The dirtiness of the current branch is indicated by its color:
+- red: it is dirty
+- green: it is up to date
+
+**Note:** The unmerged commits count appears only if the changes in the
+upstream branch as been fetched.
 
 #### Examples
 
-Dirty:
-![dirty](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-dirty.png)
+Dirty (changes not committed):
+
+![dirty](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-dirty2.png)
 
 Unpushed commits:
-![unpushed_commits](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-ucommit-count.png)
+
+![unpushed_commits](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-unpushed.png)
+
+Unmerged commits:
+
+![unmerged_commits](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-unmerged.png)
+
+Both unpushed and unmerged commits:
+
+![unmerged_commits](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-unpushed_unmerged.png)
 
 In a sub-directory of the repository:
-![repo_subdir](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-subdir.png)
+
+![repo_subdir](http://raw2.github.com/syl20bnr/oh-my-fish-theme-syl20bnr/master/screenshots/prompt_fish-syl20bnr-git-subdir2.png)
 
 ### vi-mode
 
-This segment display the current `vi-mode` if the plugin is used.
+This segment display the current `vi-mode` if the fish native vi mode or
+the oh-my-fish vi-mode plugin is used.
 See the `[n]` in the previous screenshots.
 
 ### end
@@ -100,12 +121,18 @@ This segment is displayed in the right prompt.
 Some functions come with the theme:
 - `toggle_right_prompt` will... toggle the right prompt! (alias: `trp`)
 
+## Mac compatibility
+
+In order to make this theme work correctly with all the features make sure to
+install the following packages via MacPorts or Homebrew:
+-`pstree` (used in ranger detection)
+
 ## Cygwin compatibility
 
 In order to make this theme work on [Cygwin][cygwin], make sure to install the following
 packages:
 - `bc` for `math` fish function
-- `psmisc` for `pstree`
+- `psmisc` for `pstree` (used in ranger detection)
 - `git` if you want to use the `git` segment.
 
 [git]: http://git-scm.com/

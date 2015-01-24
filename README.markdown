@@ -1,5 +1,7 @@
 # Oh My Fish!
 
+[![Build Status](https://travis-ci.org/bpinto/oh-my-fish.svg?branch=master)](https://travis-ci.org/bpinto/oh-my-fish)
+
 ### Why?
   Developing on a shell should be a pleasure. Our goal is to help developers that don't want to spend time configuring their own computer to spend time doing what they want.
 
@@ -37,7 +39,7 @@ If you would like to override the functionality of a plugin distributed with oh-
 create a plugin of the same name in the `custom/plugins/` directory and it will be loaded
 instead of the one shipped with oh-my-fish.
 
-If you would to use your custom theme, move it with the same name in the `custom/themes/` directory
+If you would like to use your custom theme, move it with the same name in the `custom/themes/` directory
 and it will override the original theme in `themes/`.
 
 If you just want to override any of the default behavior or add some environment variables,
@@ -76,12 +78,12 @@ Substitute /bin/bash with /bin/tcsh or /bin/zsh as appropriate.
 
 3. Start / restart fish (just open a new terminal)
 
-### Uninstall
+## Uninstall
 
     rm -rf ~/.oh-my-fish
 
 
-###. Oh My ZSH
+## Oh My ZSH
 
 This project is heavily inspired by [oh-my-zsh][oh-my-zsh]
 

@@ -1,28 +1,24 @@
-function _path_index
-  if test $PATH[$argv[1]] = $argv[2]
-    echo 'Path index correct'
+set -l brew_paths /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
+
+# Append all existing brew paths to PATH
+set -l existing_brew_paths
+for brew_path in $brew_paths
+  if test -d $brew_path
+    set PATH $PATH $brew_path
+    set existing_brew_paths $existing_brew_paths $brew_path
   end
 end
 
-# Set /usr/local/bin before /usr/bin if defined on $PATH
-if contains /usr/local/bin $PATH
-  if contains /usr/bin $PATH
-    for i in (seq (count $PATH))
-      if test (_path_index $i '/usr/bin')
-        set -g bin_index $i
-      else
-        if test (_path_index $i '/usr/local/bin')
-          set -g local_bin_index $i
-        end
-      end
-    end
-
-    if test $bin_index -lt $local_bin_index
-      set PATH[$bin_index] /usr/local/bin
-      set PATH[$local_bin_index] /usr/bin
+# Remove brew paths from tail to head that were not recently added
+set -l number_of_paths_to_ignore (math (count $PATH) - (count $existing_brew_paths))
+for i in (seq (count $PATH))[-1..1]
+  if test $i -le $number_of_paths_to_ignore
+    if contains $PATH[$i] $brew_paths
+      set -e PATH[$i]
     end
   end
 end
 
-set -e bin_index
-set -e local_bin_index
+set -e brew_paths
+set -e existing_brew_paths
+set -e existing_brew_paths_count
