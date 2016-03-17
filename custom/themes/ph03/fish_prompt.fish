@@ -43,7 +43,7 @@ set dk_red     600
 
 set slate_blue 255e87
 
-set lt_orange  f6b117
+set lt_orange  cc7013
 set dk_orange  3a2a03
 
 set dk_grey    333
